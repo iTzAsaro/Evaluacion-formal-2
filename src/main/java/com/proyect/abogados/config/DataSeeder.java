@@ -18,7 +18,7 @@ public class DataSeeder {
     @Bean
     public CommandLineRunner seedData() {
         return args -> {
-            if (abogadoService.listarAbogados().isEmpty()) { // Solo si no hay abogados en Firestore
+            if (abogadoService.listarAbogados().isEmpty()) {
 
                 Abogado abogado1 = new Abogado();
                 abogado1.setEspecialidad("Derecho Civil");
