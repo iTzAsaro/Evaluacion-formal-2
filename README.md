@@ -19,7 +19,7 @@ Este repositorio contiene el desarrollo de un proyecto de microservicios backend
 - Postman
 - JUnit
 
-## 🔧 Endpoints principales
+##  Endpoints principales
 
 | Método | Endpoint | Descripción |
 |--------|----------|-------------|
