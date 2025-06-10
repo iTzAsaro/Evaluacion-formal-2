@@ -50,6 +50,6 @@ El proyecto cumple con los objetivos planteados:
 
 ##  Autor
 
-- **Estudiante:** [Alexsander Rosales,Nicolas Estafania, Dairys Sanchez, Diego Tapia y Ariel Espinoza]
+- **Estudiante:** Alexsander Rosales,Nicolas Estafania, Dairys Sanchez, Diego Tapia y Ariel Espinoza
 
 
