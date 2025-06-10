@@ -50,6 +50,6 @@ El proyecto cumple con los objetivos planteados:
 
 ##  Autor
 
-- **Estudiante:** [Tu nombre completo]
-- **Repositorio:** [Pega aquí el enlace al repositorio]
+- **Estudiante:** [Alexsander Rosales,Nicolas Estafania, Dairys Sanchez, Diego Tapia y Ariel Espinoza]
+
 

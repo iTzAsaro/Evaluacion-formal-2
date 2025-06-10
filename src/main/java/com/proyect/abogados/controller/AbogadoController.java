@@ -1,13 +1,18 @@
 package com.proyect.abogados.controller;
 
+import com.proyect.abogados.assemblers.AbogadoAssemblers;
 import com.proyect.abogados.model.Abogado;
 import com.proyect.abogados.service.AbogadoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 /**
  * Controlador REST que expone los endpoints para gestionar abogados.
@@ -22,72 +27,55 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class AbogadoController {
 
-    /** Servicio que encapsula la lógica de negocio relacionada a Abogado. */
     private final AbogadoService abogadoService;
+    private final AbogadoAssemblers abogadoAssemblers;
 
-    /**
-     * Obtiene una lista de todos los abogados.
-     *
-     * @return lista de abogados almacenados en Firestore
-     * @throws ExecutionException si ocurre un error en la ejecución de la consulta
-     * @throws InterruptedException si la operación es interrumpida
-     */
     @GetMapping
-    public List<Abogado> listarAbogados() throws ExecutionException, InterruptedException {
-        return abogadoService.listarAbogados();
+    public ResponseEntity<CollectionModel<EntityModel<Abogado>>> listarAbogados()
+            throws ExecutionException, InterruptedException {
+
+        List<EntityModel<Abogado>> abogados = abogadoService.listarAbogados()
+                .stream()
+                .map(abogadoAssemblers::toModel)
+                .collect(Collectors.toList());
+
+        CollectionModel<EntityModel<Abogado>> collection = CollectionModel.of(abogados);
+        collection.add(linkTo(methodOn(AbogadoController.class).listarAbogados()).withSelfRel());
+        collection.add(linkTo(methodOn(AbogadoController.class).crearAbogado(null)).withRel("crear"));
+
+        return ResponseEntity.ok(collection);
     }
 
-    /**
-     * Obtiene un abogado por su ID.
-     *
-     * @param id identificador del abogado
-     * @return abogado correspondiente al ID dado
-     * @throws ExecutionException si ocurre un error en la ejecución de la consulta
-     * @throws InterruptedException si la operación es interrumpida
-     */
     @GetMapping("/{id}")
-    public ResponseEntity<Abogado> obtenerAbogado(@PathVariable String id)
+    public ResponseEntity<EntityModel<Abogado>> obtenerAbogado(@PathVariable String id)
             throws ExecutionException, InterruptedException {
-        return ResponseEntity.ok(abogadoService.obtenerAbogadoPorId(id));
+
+        Abogado abogado = abogadoService.obtenerAbogadoPorId(id);
+        return ResponseEntity.ok(abogadoAssemblers.toModel(abogado));
     }
 
-    /**
-     * Crea un nuevo abogado en Firestore.
-     *
-     * @param abogado datos del abogado a crear
-     * @return abogado creado
-     * @throws ExecutionException si ocurre un error en la ejecución de la operación
-     * @throws InterruptedException si la operación es interrumpida
-     */
     @PostMapping
-    public ResponseEntity<Abogado> crearAbogado(@RequestBody Abogado abogado)
+    public ResponseEntity<EntityModel<Abogado>> crearAbogado(@RequestBody Abogado abogado)
             throws ExecutionException, InterruptedException {
-        return ResponseEntity.ok(abogadoService.crearAbogado(abogado));
+
+        Abogado nuevoAbogado = abogadoService.crearAbogado(abogado);
+        EntityModel<Abogado> resource = abogadoAssemblers.toModel(nuevoAbogado);
+
+        return ResponseEntity
+                .created(linkTo(methodOn(AbogadoController.class).obtenerAbogado(nuevoAbogado.getId())).toUri())
+                .body(resource);
     }
 
-    /**
-     * Actualiza los datos de un abogado existente.
-     *
-     * @param id identificador del abogado a actualizar
-     * @param abogado nuevos datos del abogado
-     * @return abogado actualizado
-     * @throws ExecutionException si ocurre un error en la ejecución de la operación
-     * @throws InterruptedException si la operación es interrumpida
-     */
     @PutMapping("/{id}")
-    public ResponseEntity<Abogado> actualizarAbogado(@PathVariable String id, @RequestBody Abogado abogado)
+    public ResponseEntity<EntityModel<Abogado>> actualizarAbogado(
+            @PathVariable String id,
+            @RequestBody Abogado abogado)
             throws ExecutionException, InterruptedException {
-        return ResponseEntity.ok(abogadoService.actualizarAbogado(id, abogado));
+
+        Abogado abogadoActualizado = abogadoService.actualizarAbogado(id, abogado);
+        return ResponseEntity.ok(abogadoAssemblers.toModel(abogadoActualizado));
     }
 
-    /**
-     * Elimina un abogado por su ID.
-     *
-     * @param id identificador del abogado a eliminar
-     * @return respuesta sin contenido si se eliminó correctamente
-     * @throws ExecutionException si ocurre un error en la ejecución de la operación
-     * @throws InterruptedException si la operación es interrumpida
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarAbogado(@PathVariable String id)
             throws ExecutionException, InterruptedException {
@@ -95,13 +83,6 @@ public class AbogadoController {
         return ResponseEntity.noContent().build();
     }
 
-    /**
-     * Elimina todos los abogados almacenados en Firestore.
-     *
-     * @return respuesta sin contenido si se eliminaron correctamente
-     * @throws ExecutionException si ocurre un error en la ejecución de la operación
-     * @throws InterruptedException si la operación es interrumpida
-     */
     @DeleteMapping
     public ResponseEntity<Void> eliminarTodos() throws ExecutionException, InterruptedException {
         abogadoService.eliminarTodosAbogados();
