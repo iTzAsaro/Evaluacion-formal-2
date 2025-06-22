@@ -18,6 +18,7 @@ Este repositorio contiene el desarrollo de un proyecto de microservicios backend
 - Git + GitHub
 - Postman
 - JUnit
+- Mockito
 
 ##  Endpoints principales
 
@@ -34,7 +35,7 @@ Este repositorio contiene el desarrollo de un proyecto de microservicios backend
 ##  Pruebas
 
 - **Postman**: Se verificaron todos los endpoints CRUD.
-- **JUnit**: Se creó una prueba unitaria que valida el funcionamiento de `listarAbogados()`.
+- **JUnit y Mockito**: Se Utilizaron para realizar pruebas unitarias al proyecto a traves de estas herramientas.
 
 ##  Seguridad
 
