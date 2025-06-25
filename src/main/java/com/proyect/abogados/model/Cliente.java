@@ -6,43 +6,30 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Modelo de dominio que representa a un cliente.
- * Hereda los datos personales desde la clase {@link Persona}, e incorpora
- * datos específicos como dirección, teléfono y correo electrónico.
- * 
- * Incluye validaciones mediante Jakarta Bean Validation.
- * 
  * @author PythonLovers
  */
 @Getter
 @Setter
 public class Cliente extends Persona {
 
-    /**
-     * Identificador único del cliente en Firestore.
-     */
+    // * ID único del cliente en Firestore (obligatorio)
+    // ! Este campo se usa como clave primaria
     @NotBlank
     private String id;
 
-    /**
-     * Dirección de residencia del cliente.
-     * Debe contener entre 2 y 200 caracteres.
-     */
+    // * Dirección de residencia (2-200 caracteres, obligatorio)
     @NotBlank
     @Size(min = 2, max = 200)
     private String direccion;
 
-    /**
-     * Número de teléfono del cliente.
-     * Campo obligatorio.
-     */
+    // * Teléfono del cliente (obligatorio)
+
+    // TODO: Validar formato de número telefónico
     @NotBlank
     private String telefono;
 
-    /**
-     * Correo electrónico del cliente.
-     * Campo obligatorio.
-     */
+    // * Correo electrónico del cliente (obligatorio)
+    // TODO: Validar formato de email
     @NotBlank
     private String email;
 }

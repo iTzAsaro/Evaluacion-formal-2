@@ -9,12 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+// * Componente para poblar la base de datos con datos falsos de prueba
+// TODO: Ajustar la cantidad de datos generados si es necesario
 @Component
 public class tester implements CommandLineRunner {
 
+    // * Servicio para operaciones de clientes
     @Autowired
     private ClienteService clienteService;
 
+    // * Servicio para operaciones de abogados
     @Autowired
     private AbogadoService abogadoService;
 
@@ -22,7 +26,7 @@ public class tester implements CommandLineRunner {
     public void run(String... args) throws Exception {
         Faker faker = new Faker();
 
-        // Generar y guardar 5 clientes falsos
+        // * Generar y guardar 5 clientes falsos
         for (int i = 0; i < 5; i++) {
             Cliente cliente = new Cliente();
             cliente.setId(faker.idNumber().valid());
@@ -36,10 +40,11 @@ public class tester implements CommandLineRunner {
             cliente.setTelefono(faker.phoneNumber().cellPhone());
             cliente.setEmail(faker.internet().emailAddress());
 
-            clienteService.crearCliente(cliente); // Guarda en la base de datos
+            // ! Guardar cliente en la base de datos
+            clienteService.crearCliente(cliente);
         }
 
-        // Generar y guardar 5 abogados falsos
+        // * Generar y guardar 5 abogados falsos
         for (int i = 0; i < 5; i++) {
             Abogado abogado = new Abogado();
             abogado.setId(faker.idNumber().valid());
@@ -54,7 +59,8 @@ public class tester implements CommandLineRunner {
             abogado.setLicencia(faker.idNumber().valid());
             abogado.setAniosExperiencia(faker.number().numberBetween(1, 40));
 
-            abogadoService.crearAbogado(abogado); // Guarda en la base de datos
+            // ! Guardar abogado en la base de datos
+            abogadoService.crearAbogado(abogado);
         }
     }
 }

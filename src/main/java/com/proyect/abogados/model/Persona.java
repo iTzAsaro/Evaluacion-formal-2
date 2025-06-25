@@ -6,53 +6,49 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Clase abstracta que representa una persona genérica.
- * Esta clase es utilizada como superclase para entidades como {@link Abogado} y {@link Cliente}.
- * Contiene atributos comunes como RUT, nombres, apellidos y documento.
- * 
- * Se aplican validaciones para asegurar la integridad de los datos.
- * 
- * @author PythonLovers
+ * Clase abstracta base para personas (usada por Abogado y Cliente)
  */
 @Getter
 @Setter
 public abstract class Persona {
 
     /**
-     * Rol Único Tributario (RUT) del individuo, validado con tamaño mínimo y máximo.
+     * RUT del individuo (12-20 caracteres, obligatorio)
+     * TODO: Validar formato específico de RUT si es necesario
      */
     @NotBlank
     @Size(min = 12, max = 20)
     private String rut;
 
     /**
-     * Primer nombre de la persona.
+     * Primer nombre (2-50 caracteres, obligatorio)
      */
     @NotBlank
     @Size(min = 2, max = 50)
     private String pNombre;
 
     /**
-     * Segundo nombre de la persona (opcional).
+     * Segundo nombre (2-50 caracteres, opcional)
      */
     @Size(min = 2, max = 50)
     private String sNombre;
 
     /**
-     * Primer apellido de la persona.
+     * Primer apellido (2-50 caracteres, obligatorio)
      */
     @NotBlank
     @Size(min = 2, max = 50)
     private String pApellido;
 
     /**
-     * Segundo apellido de la persona (opcional).
+     * Segundo apellido (2-50 caracteres, opcional)
      */
     @Size(min = 2, max = 50)
     private String sApellido;
 
     /**
-     * Documento de identificación o referencia administrativa.
+     * Documento de identificación (2-50 caracteres, obligatorio)
+     * ! Asegurarse de que el documento sea único si es necesario
      */
     @NotBlank
     @Size(min = 2, max = 50)

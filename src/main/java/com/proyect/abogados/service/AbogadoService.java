@@ -11,7 +11,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 /**
- * Servicio encargado de gestionar las operaciones de negocio relacionadas con abogados,
+ * Servicio encargado de gestionar las operaciones de negocio relacionadas con
+ * abogados,
  * interactuando directamente con la base de datos Firestore.
  *
  * Permite realizar operaciones CRUD sobre la colección {@code abogados}.
@@ -35,7 +36,7 @@ public class AbogadoService {
      * Lista todos los abogados almacenados en Firestore.
      *
      * @return lista de objetos {@link Abogado}
-     * @throws ExecutionException si ocurre un error durante la operación
+     * @throws ExecutionException   si ocurre un error durante la operación
      * @throws InterruptedException si la ejecución es interrumpida
      */
     public List<Abogado> listarAbogados() throws ExecutionException, InterruptedException {
@@ -50,7 +51,7 @@ public class AbogadoService {
      *
      * @param id ID del abogado
      * @return objeto {@link Abogado} correspondiente al ID
-     * @throws ExecutionException si ocurre un error durante la operación
+     * @throws ExecutionException   si ocurre un error durante la operación
      * @throws InterruptedException si la ejecución es interrumpida
      */
     public Abogado obtenerAbogadoPorId(String id) throws ExecutionException, InterruptedException {
@@ -59,6 +60,7 @@ public class AbogadoService {
         if (snapshot.exists()) {
             return snapshot.toObject(Abogado.class);
         } else {
+            // ! Lanza excepción si el abogado no existe
             throw new RuntimeException("Abogado no encontrado con id: " + id);
         }
     }
@@ -68,7 +70,7 @@ public class AbogadoService {
      *
      * @param abogado objeto {@link Abogado} a almacenar
      * @return abogado con el ID asignado por Firestore
-     * @throws ExecutionException si ocurre un error durante la operación
+     * @throws ExecutionException   si ocurre un error durante la operación
      * @throws InterruptedException si la ejecución es interrumpida
      */
     public Abogado crearAbogado(Abogado abogado) throws ExecutionException, InterruptedException {
@@ -81,10 +83,10 @@ public class AbogadoService {
     /**
      * Actualiza un abogado existente en Firestore.
      *
-     * @param id ID del abogado a actualizar
+     * @param id      ID del abogado a actualizar
      * @param abogado objeto {@link Abogado} con los nuevos datos
      * @return abogado actualizado
-     * @throws ExecutionException si ocurre un error durante la operación
+     * @throws ExecutionException   si ocurre un error durante la operación
      * @throws InterruptedException si la ejecución es interrumpida
      */
     public Abogado actualizarAbogado(String id, Abogado abogado) throws ExecutionException, InterruptedException {
@@ -97,7 +99,7 @@ public class AbogadoService {
      * Elimina un abogado de la colección por su ID.
      *
      * @param id ID del abogado a eliminar
-     * @throws ExecutionException si ocurre un error durante la operación
+     * @throws ExecutionException   si ocurre un error durante la operación
      * @throws InterruptedException si la ejecución es interrumpida
      */
     public void eliminarAbogado(String id) throws ExecutionException, InterruptedException {
@@ -107,7 +109,7 @@ public class AbogadoService {
     /**
      * Elimina todos los documentos (abogados) de la colección.
      *
-     * @throws ExecutionException si ocurre un error durante la operación
+     * @throws ExecutionException   si ocurre un error durante la operación
      * @throws InterruptedException si la ejecución es interrumpida
      */
     public void eliminarTodosAbogados() throws ExecutionException, InterruptedException {

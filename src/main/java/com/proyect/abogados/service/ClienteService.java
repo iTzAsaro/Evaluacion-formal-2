@@ -12,8 +12,10 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 /**
- * Servicio encargado de gestionar las operaciones de negocio relacionadas con clientes.
- * Realiza operaciones CRUD sobre la colección {@code clientes} en Firebase Firestore.
+ * Servicio encargado de gestionar las operaciones de negocio relacionadas con
+ * clientes.
+ * Realiza operaciones CRUD sobre la colección {@code clientes} en Firebase
+ * Firestore.
  * 
  * Utiliza la API de Firebase Admin SDK para acceder a la base de datos.
  * 
@@ -39,7 +41,7 @@ public class ClienteService {
      * Lista todos los clientes almacenados en Firestore.
      *
      * @return lista de objetos {@link Cliente}
-     * @throws ExecutionException si ocurre un error durante la operación
+     * @throws ExecutionException   si ocurre un error durante la operación
      * @throws InterruptedException si la ejecución es interrumpida
      */
     public List<Cliente> listarClientes() throws ExecutionException, InterruptedException {
@@ -54,7 +56,7 @@ public class ClienteService {
      *
      * @param id ID del cliente
      * @return objeto {@link Cliente} correspondiente al ID
-     * @throws ExecutionException si ocurre un error durante la operación
+     * @throws ExecutionException   si ocurre un error durante la operación
      * @throws InterruptedException si la ejecución es interrumpida
      */
     public Cliente obtenerCliente(String id) throws ExecutionException, InterruptedException {
@@ -63,6 +65,7 @@ public class ClienteService {
         if (snapshot.exists()) {
             return snapshot.toObject(Cliente.class);
         } else {
+            // ! Lanza excepción si el cliente no existe
             throw new RuntimeException("Cliente no encontrado con id: " + id);
         }
     }
@@ -72,7 +75,7 @@ public class ClienteService {
      *
      * @param cliente objeto {@link Cliente} a almacenar
      * @return cliente con el ID asignado por Firestore
-     * @throws ExecutionException si ocurre un error durante la operación
+     * @throws ExecutionException   si ocurre un error durante la operación
      * @throws InterruptedException si la ejecución es interrumpida
      */
     public Cliente crearCliente(Cliente cliente) throws ExecutionException, InterruptedException {
@@ -85,10 +88,10 @@ public class ClienteService {
     /**
      * Actualiza un cliente existente en Firestore.
      *
-     * @param id ID del cliente a actualizar
+     * @param id      ID del cliente a actualizar
      * @param cliente objeto {@link Cliente} con los nuevos datos
      * @return cliente actualizado
-     * @throws ExecutionException si ocurre un error durante la operación
+     * @throws ExecutionException   si ocurre un error durante la operación
      * @throws InterruptedException si la ejecución es interrumpida
      */
     public Cliente actualizarCliente(String id, Cliente cliente) throws ExecutionException, InterruptedException {
@@ -102,7 +105,7 @@ public class ClienteService {
      * Elimina un cliente de la colección por su ID.
      *
      * @param id ID del cliente a eliminar
-     * @throws ExecutionException si ocurre un error durante la operación
+     * @throws ExecutionException   si ocurre un error durante la operación
      * @throws InterruptedException si la ejecución es interrumpida
      */
     public void eliminarCliente(String id) throws ExecutionException, InterruptedException {
@@ -112,7 +115,7 @@ public class ClienteService {
     /**
      * Elimina todos los documentos (clientes) de la colección.
      *
-     * @throws ExecutionException si ocurre un error durante la operación
+     * @throws ExecutionException   si ocurre un error durante la operación
      * @throws InterruptedException si la ejecución es interrumpida
      */
     public void eliminarTodosClientes() throws ExecutionException, InterruptedException {
